@@ -19,8 +19,8 @@ public class UserController {
 
     @GetMapping("/users")
     @RolesAllowed({"ADMIN"})
-    public ResponseEntity<List<User>> getAllUser() {
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<List<UserDto>> getAllUser() {
+        List<UserDto> users = userService.getAllUsers();
         return ResponseEntity.ok().body(users);
     }
 

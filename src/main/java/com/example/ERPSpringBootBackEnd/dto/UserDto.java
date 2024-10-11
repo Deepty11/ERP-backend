@@ -1,16 +1,16 @@
 package com.example.ERPSpringBootBackEnd.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.ERPSpringBootBackEnd.model.JobProfile;
+import lombok.*;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Builder
 public class UserDto {
+    private long id;
     private String firstName;
     private String lastName;
     private String username;
@@ -21,6 +21,7 @@ public class UserDto {
     private String religion;
     private ContactInfoDto contactInfoDto;
     private EmergencyContactInfoDto emergencyContactInfoDto;
+    private JobProfileDto jobProfileDto;
 
 
     // TODO: Add these fields later

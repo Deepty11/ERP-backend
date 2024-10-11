@@ -9,7 +9,6 @@ import lombok.*;
 public class ContactInfoDto {
     private String mobileNumber;
     private String email;
-    private AddressDto presentAddress;
-    private AddressDto permanentAddress;
+    private String address;
 }
 

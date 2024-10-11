@@ -11,6 +11,11 @@ public enum Relationship {
 
     private String relation;
 
+    @Override
+    public String toString() {
+        return relation;
+    }
+
     public String getRelation() {
         return relation;
     }

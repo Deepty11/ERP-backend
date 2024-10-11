@@ -1,8 +1,10 @@
 package com.example.ERPSpringBootBackEnd.model;
 
+import com.example.ERPSpringBootBackEnd.dto.UserDto;
 import com.example.ERPSpringBootBackEnd.enums.Gender;
 import com.example.ERPSpringBootBackEnd.enums.Religion;
 import com.example.ERPSpringBootBackEnd.enums.Role;
+import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,6 +30,7 @@ public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String firstName;
     private String lastName;
     private String userName;
@@ -116,5 +119,22 @@ public class User implements UserDetails, Serializable {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public UserDto convertToDto() {
+        return UserDto.builder()
+                .id(id)
+                .firstName(firstName)
+                .lastName(lastName)
+                .username(userName)
+                .password(password)
+                .gender(gender != null ? gender.toString() : "")
+                .religion(religion != null ? religion.toString() : "")
+                .role(role != null ? role.toString() : "")
+                .birthDate(DateUtils.formatDate(birthDate))
+                .jobProfileDto(jobProfile != null ? jobProfile.convertToDto() : null)
+                .contactInfoDto(contactInfo != null ? contactInfo.convertToDto(): null)
+                .emergencyContactInfoDto(emergencyContact!= null ? emergencyContact.convertToDto() : null)
+                .build();
     }
 }

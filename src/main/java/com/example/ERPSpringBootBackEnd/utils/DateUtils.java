@@ -25,7 +25,11 @@ public class DateUtils {
     }
 
     public static String formatDate(Date date) {
-        return dateFormat.format(date);
+        if(date != null) {
+            return dateFormat.format(date);
+        }
+
+        return "";
     }
 
     public static Date parseDate(String dateString) {

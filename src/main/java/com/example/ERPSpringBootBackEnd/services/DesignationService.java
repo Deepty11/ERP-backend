@@ -38,9 +38,11 @@ public class DesignationService {
         Designation designation =  new Designation();
         designation.setTitle(designationDto.getTitle());
         designation.setDescription(designationDto.getDescription());
-        designation.setEmploymentType(getEmploymentType(designationDto.getEmploymentType()));
-        designation.setDesignationLevel(getDesignationLevel(designationDto.getLevel()));
-        designation.setSalaryRange(salaryService.save(designationDto.getSalaryRange()));
+
+        if(designationDto.getSalaryRange() != null) {
+            designation.setSalaryRange(
+                    salaryService.save(designationDto.getSalaryRange()));
+        }
 
         return designationRepository.save(designation);
     }
@@ -51,9 +53,7 @@ public class DesignationService {
         return designationsFromDB.stream().map(designation -> new DesignationDto(
                 designation.getId(),
                 designation.getTitle(),
-                designation.getDescription(),
-                designation.getEmploymentType().getTitle(),
-                designation.getDesignationLevel().getTitle())).collect(Collectors.toList());
+                designation.getDescription())).collect(Collectors.toList());
     }
 
     public List<Designation> getDesignationList() {

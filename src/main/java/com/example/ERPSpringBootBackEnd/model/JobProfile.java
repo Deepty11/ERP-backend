@@ -1,6 +1,8 @@
 package com.example.ERPSpringBootBackEnd.model;
 
+import com.example.ERPSpringBootBackEnd.dto.JobProfileDto;
 import com.example.ERPSpringBootBackEnd.enums.Currency;
+import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -23,34 +25,33 @@ import java.util.Objects;
 public class JobProfile implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "jobInfoSeq",
-            sequenceName = "jobInfoSeq",
-            allocationSize = 1)
-    @GeneratedValue(generator = "jobInfoSeq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotNull
+    @Column(unique = true)
+    private String employeeId;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date joiningDate;
 
-    @NotNull
-    private double basicSalary;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Currency currency;
 
-    private double conveyanceAllowance;
-    private double medicalReimbursement;
-    private double houseRent;
+    private String employmentType;
+    private String level;
+    private double compensation;
+    private double basicSalary;
+
+//    private double conveyanceAllowance;
+//    private double medicalReimbursement;
+//    private double houseRent;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "designation_id")
     private Designation designation;
-
-    @OneToOne
-    private User user;
 
     @Transient
     private String joinningDateString;
@@ -71,26 +72,13 @@ public class JobProfile implements Serializable {
         return format.format(joiningDate);
     }
 
-    private String getFormattedAllowance(double amount) {
-        return this.getCurrency().toString() + amount;
-    }
-
-    public String getBasicSalaryString() {
-        return getFormattedAllowance(this.basicSalary);
-    }
-
-    public String getConveyanceAllowanceString() {
-        return getFormattedAllowance(this.conveyanceAllowance);
-    }
-
-
-    public String getMedicalReimbursementString() {
-        return getFormattedAllowance(this.medicalReimbursement);
-    }
-
-    public String getHouseRentString() {
-        return getFormattedAllowance(this.houseRent);
-    }
+//    private String getFormattedAllowance(double amount) {
+//        return this.getCurrency().toString() + amount;
+//    }
+//
+//    public String getBasicSalaryString() {
+//        return getFormattedAllowance(this.basicSalary);
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -103,5 +91,17 @@ public class JobProfile implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public JobProfileDto convertToDto() {
+        return JobProfileDto.builder()
+                .employeeId(employeeId)
+                .employmentType(employmentType)
+                .level(level)
+                .joiningDate(DateUtils.formatDate(joiningDate))
+                .basicSalary(basicSalary)
+                .compensation(compensation)
+                .designationDto(designation.convertToDto())
+                .build();
     }
 }

@@ -3,7 +3,19 @@ package com.example.ERPSpringBootBackEnd.enums;
 import java.util.Arrays;
 
 public enum Role {
-    ADMIN, USER;
+    ADMIN("Admin"),
+    USER("User");
+
+    String name;
+
+    Role(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 
     public static Role getRole(String roleString) {
         return Arrays.stream(Role.values())

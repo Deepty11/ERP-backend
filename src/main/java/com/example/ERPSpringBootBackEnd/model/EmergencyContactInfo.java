@@ -1,5 +1,6 @@
 package com.example.ERPSpringBootBackEnd.model;
 
+import com.example.ERPSpringBootBackEnd.dto.EmergencyContactInfoDto;
 import com.example.ERPSpringBootBackEnd.enums.Relationship;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +30,6 @@ public class EmergencyContactInfo implements Serializable {
     @Enumerated(EnumType.STRING)
     private Relationship relation;
 
-    private String phone;
     private String mobileNumber;
 
     @CreationTimestamp
@@ -55,4 +55,9 @@ public class EmergencyContactInfo implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public EmergencyContactInfoDto convertToDto() {
+        return new EmergencyContactInfoDto(name, relation.toString(), mobileNumber);
+    }
+
 }

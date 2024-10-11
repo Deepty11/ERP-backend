@@ -1,14 +1,12 @@
 package com.example.ERPSpringBootBackEnd.model;
 
+import com.example.ERPSpringBootBackEnd.dto.DesignationDto;
 import com.example.ERPSpringBootBackEnd.enums.DesignationLevel;
 import com.example.ERPSpringBootBackEnd.enums.EmploymentType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,6 +16,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Data
 @Entity
 @Table
 @Getter
@@ -28,8 +27,7 @@ public class Designation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(name = "designationSeq", sequenceName = "designationSeq", allocationSize = 1)
-    @GeneratedValue(generator = "designationSeq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank
@@ -45,12 +43,6 @@ public class Designation implements Serializable {
     @OneToOne
     private SalaryRange salaryRange;
 
-    @Enumerated(EnumType.STRING)
-    private EmploymentType employmentType;
-
-    @Enumerated(EnumType.STRING)
-    private DesignationLevel designationLevel;
-
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -60,7 +52,7 @@ public class Designation implements Serializable {
     private Date updated;
 
     @Version
-    private int version = 0;
+    private int version;
 
     public Designation() {
         jobProfiles = new HashSet<>();
@@ -77,5 +69,14 @@ public class Designation implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public DesignationDto convertToDto() {
+        return DesignationDto.builder()
+                .id(id)
+                .title(title)
+                .description(description)
+                .salaryRange(salaryRange.convertToDto())
+                .build();
     }
 }

@@ -3,9 +3,23 @@ package com.example.ERPSpringBootBackEnd.enums;
 import java.util.Arrays;
 
 public enum Religion {
-    ISLAM, HINDUISM, BUDDHISM, CHRISTIANITY;
+    ISLAM("Islam"),
+    HINDUISM("Hinduism"),
+    BUDDHISM("Buddhism"),
+    CHRISTIANITY("Christianity");
 
-    public static Religion getReligion( String religionString) {
+    String name;
+
+    Religion(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    public static Religion getReligion(String religionString) {
         return Arrays.stream(Religion.values())
                 .filter(r -> r.name().equalsIgnoreCase(religionString))
                 .findFirst()

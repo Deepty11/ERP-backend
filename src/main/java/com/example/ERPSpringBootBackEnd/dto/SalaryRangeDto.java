@@ -1,5 +1,6 @@
 package com.example.ERPSpringBootBackEnd.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,4 +9,9 @@ import lombok.Setter;
 public class SalaryRangeDto {
     double min;
     double max;
+
+    public SalaryRangeDto(double min, double max) {
+        this.min = min;
+        this.max = max;
+    }
 }

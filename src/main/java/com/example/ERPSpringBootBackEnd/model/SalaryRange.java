@@ -1,5 +1,6 @@
 package com.example.ERPSpringBootBackEnd.model;
 
+import com.example.ERPSpringBootBackEnd.dto.SalaryRangeDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,5 +45,9 @@ public class SalaryRange implements Serializable {
     public SalaryRange(double min, double max) {
         this.min = min;
         this.max = max;
+    }
+
+    public SalaryRangeDto convertToDto() {
+        return new SalaryRangeDto(min, max);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ERPSpringBootBackEnd.model;
 
+import com.example.ERPSpringBootBackEnd.dto.ContactInfoDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,18 +20,12 @@ public class ContactInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(name = "contactInfoSeq", sequenceName = "contactInfoSeq", allocationSize = 1)
-    @GeneratedValue(generator = "contactInfoSeq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String mobileNumber;
     private String email;
-
-    @OneToOne
-    private Address presentAddress;
-
-    @OneToOne
-    private Address permanentAddress;
+    private String address;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -54,5 +49,13 @@ public class ContactInfo implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public ContactInfoDto convertToDto() {
+        return ContactInfoDto.builder()
+                .address(address)
+                .mobileNumber(mobileNumber)
+                .email(email)
+                .build();
     }
 }
