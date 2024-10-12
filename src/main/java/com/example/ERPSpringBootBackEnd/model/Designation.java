@@ -76,7 +76,7 @@ public class Designation implements Serializable {
                 .id(id)
                 .title(title)
                 .description(description)
-                .salaryRange(salaryRange.convertToDto())
+                .salaryRange(salaryRange != null ? salaryRange.convertToDto() : null)
                 .build();
     }
 }

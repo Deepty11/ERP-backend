@@ -30,4 +30,9 @@ public class UserController {
         User newUser = userService.save(userDto);
         return ResponseEntity.ok().body(newUser);
     }
+
+    @GetMapping("/loggedInUser")
+    public ResponseEntity<UserDto> getUserByUsername(@RequestParam String username) {
+        return ResponseEntity.ok().body(userService.getUserDtoByUsername(username));
+    }
 }

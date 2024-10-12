@@ -3,6 +3,7 @@ package com.example.ERPSpringBootBackEnd.services;
 import ch.qos.logback.core.util.StringUtil;
 import com.example.ERPSpringBootBackEnd.dto.ContactInfoDto;
 import com.example.ERPSpringBootBackEnd.dto.JobProfileDto;
+import com.example.ERPSpringBootBackEnd.dto.LeaveApplicationDto;
 import com.example.ERPSpringBootBackEnd.dto.UserDto;
 import com.example.ERPSpringBootBackEnd.enums.Gender;
 import com.example.ERPSpringBootBackEnd.enums.Religion;
@@ -22,9 +23,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +46,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     private DesignationRepository designationRepository;
 
+    @Transactional
     public User save(UserDto userDto) throws ParseException {
         if (userRepository.existsUserByUserName(userDto.getUsername())) {
             System.out.println("User with the username already exists");
@@ -112,9 +117,22 @@ public class UserService implements UserDetailsService {
                 .map(user -> user.convertToDto()).collect(Collectors.toList());
     }
 
-    public User getUserById(long id) throws ResourceNotFoundException {
+    public User getUserById(long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No user found"));
+                .orElse(null);
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findUserByUserName(username).get();
+    }
+
+    public UserDto getUserDtoByUsername(String username) {
+        User user = getUserByUsername(username);
+        return Objects.isNull(user) ? null : new UserDto(
+                user.getFirstName(),
+                user.getLastName(),
+                user.getUsername(),
+                user.getRole().toString());
     }
 
     @Override

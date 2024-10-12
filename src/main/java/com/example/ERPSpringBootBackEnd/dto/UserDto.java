@@ -49,4 +49,13 @@ public class UserDto {
         this.role = role;
     }
 
+    /**
+     * To fetch user List from DB and to pass to react
+     */
+    public UserDto(String firstName, String lastName, String username, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.role = role;
+    }
 }
