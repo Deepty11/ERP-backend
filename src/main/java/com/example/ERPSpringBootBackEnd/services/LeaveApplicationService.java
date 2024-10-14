@@ -2,6 +2,7 @@ package com.example.ERPSpringBootBackEnd.services;
 
 import com.example.ERPSpringBootBackEnd.dto.LeaveApplicationDto;
 import com.example.ERPSpringBootBackEnd.dto.UserDto;
+import com.example.ERPSpringBootBackEnd.enums.LeaveStatus;
 import com.example.ERPSpringBootBackEnd.enums.LeaveType;
 import com.example.ERPSpringBootBackEnd.model.LeaveApplication;
 import com.example.ERPSpringBootBackEnd.model.User;
@@ -35,6 +36,7 @@ public class LeaveApplicationService {
                 .description(leaveApplicationDto.getDescription())
                 .fromDate(DateUtils.parseDate(leaveApplicationDto.getFromDate()))
                 .toDate(DateUtils.parseDate(leaveApplicationDto.getToDate()))
+                .status(LeaveStatus.getLeaveStatus(leaveApplicationDto.getStatus()))
                 .user(user)
                 .build();
         return repository.save(leaveApplication);
@@ -52,10 +54,11 @@ public class LeaveApplicationService {
 
         return new LeaveApplicationDto(
                 leaveApplication.getId(),
-                leaveApplication.getLeaveType().toString(),
+                leaveApplication.getLeaveType().getTitle(),
                 leaveApplication.getDescription(),
                 DateUtils.formatDate(leaveApplication.getFromDate()),
                 DateUtils.formatDate(leaveApplication.getToDate()),
+                leaveApplication.getStatus().getTitle(),
                 new UserDto(
                         user.getFirstName(),
                         user.getLastName(),

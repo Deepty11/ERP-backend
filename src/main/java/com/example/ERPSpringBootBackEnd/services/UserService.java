@@ -5,9 +5,7 @@ import com.example.ERPSpringBootBackEnd.dto.ContactInfoDto;
 import com.example.ERPSpringBootBackEnd.dto.JobProfileDto;
 import com.example.ERPSpringBootBackEnd.dto.LeaveApplicationDto;
 import com.example.ERPSpringBootBackEnd.dto.UserDto;
-import com.example.ERPSpringBootBackEnd.enums.Gender;
-import com.example.ERPSpringBootBackEnd.enums.Religion;
-import com.example.ERPSpringBootBackEnd.enums.Role;
+import com.example.ERPSpringBootBackEnd.enums.*;
 import com.example.ERPSpringBootBackEnd.model.ContactInfo;
 import com.example.ERPSpringBootBackEnd.model.Designation;
 import com.example.ERPSpringBootBackEnd.model.JobProfile;
@@ -91,8 +89,8 @@ public class UserService implements UserDetailsService {
     private JobProfile mapToJobProfile(JobProfileDto jobProfileDto) {
         JobProfile jobProfile = JobProfile.builder()
                 .employeeId(jobProfileDto.getEmployeeId())
-                .employmentType(jobProfileDto.getEmploymentType())
-                .level(jobProfileDto.getLevel())
+                .employmentType(EmploymentType.getEmploymentType(jobProfileDto.getEmploymentType()))
+                .level(DesignationLevel.getDesignationLevel(jobProfileDto.getLevel()))
                 .basicSalary(jobProfileDto.getBasicSalary())
                 .compensation(jobProfileDto.getCompensation())
                 .build();

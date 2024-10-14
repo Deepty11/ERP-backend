@@ -11,14 +11,11 @@ public enum Relationship {
 
     private String relation;
 
-    @Override
-    public String toString() {
-        return relation;
-    }
+//    @Override
+//    public String toString() {
+//        return relation;
+//    }
 
-    public String getRelation() {
-        return relation;
-    }
 
     Relationship(String relation) {
         this.relation = relation;

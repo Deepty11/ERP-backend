@@ -2,6 +2,8 @@ package com.example.ERPSpringBootBackEnd.enums;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum DesignationLevel {
     JUNIOR("Junior"),
@@ -14,5 +16,14 @@ public enum DesignationLevel {
 
     DesignationLevel(String title) {
         this.title = title;
+    }
+
+    public static DesignationLevel getDesignationLevel(String designationLevelString) {
+        return Arrays.stream(DesignationLevel.values())
+                .filter(designationLevel -> designationLevel
+                        .title
+                        .equalsIgnoreCase(designationLevelString))
+                .findFirst()
+                .orElse(null);
     }
 }

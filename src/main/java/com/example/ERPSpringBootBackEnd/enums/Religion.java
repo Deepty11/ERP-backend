@@ -14,14 +14,14 @@ public enum Religion {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return this.name;
-    }
+//    @Override
+//    public String toString() {
+//        return this.name;
+//    }
 
     public static Religion getReligion(String religionString) {
         return Arrays.stream(Religion.values())
-                .filter(r -> r.name().equalsIgnoreCase(religionString))
+                .filter(r -> r.name.equalsIgnoreCase(religionString))
                 .findFirst()
                 .orElse(null);
     }

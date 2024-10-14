@@ -20,7 +20,7 @@ public enum Gender {
 
     public static Gender getGender(String genderString) {
         return Arrays.stream(Gender.values())
-                .filter(r -> r.name().equalsIgnoreCase(genderString))
+                .filter(r -> r.name.equalsIgnoreCase(genderString))
                 .findFirst()
                 .orElse(null);
     }

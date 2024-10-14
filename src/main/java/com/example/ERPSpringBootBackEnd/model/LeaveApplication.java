@@ -2,6 +2,7 @@ package com.example.ERPSpringBootBackEnd.model;
 
 import com.example.ERPSpringBootBackEnd.dto.LeaveApplicationDto;
 import com.example.ERPSpringBootBackEnd.dto.UserDto;
+import com.example.ERPSpringBootBackEnd.enums.LeaveStatus;
 import com.example.ERPSpringBootBackEnd.enums.LeaveType;
 import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import jakarta.persistence.*;
@@ -34,6 +35,9 @@ public class LeaveApplication implements Serializable {
     private LeaveType leaveType;
 
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private LeaveStatus status;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -12,14 +12,14 @@ public enum Role {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
+//    @Override
+//    public String toString() {
+//        return name;
+//    }
 
     public static Role getRole(String roleString) {
         return Arrays.stream(Role.values())
-                .filter(role -> role.name().equalsIgnoreCase(roleString))
+                .filter(role -> role.name.equalsIgnoreCase(roleString))
                 .findFirst()
                 .orElse(null);
     }

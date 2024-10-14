@@ -1,5 +1,4 @@
 package com.example.ERPSpringBootBackEnd.dto;
-import com.example.ERPSpringBootBackEnd.model.User;
 import lombok.*;
 
 @Getter
@@ -13,5 +12,6 @@ public class LeaveApplicationDto {
     private String description;
     private String fromDate;
     private String toDate;
+    private String status;
     private UserDto userDto;
 }

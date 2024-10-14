@@ -1,6 +1,4 @@
 package com.example.ERPSpringBootBackEnd.configuration;
-
-import com.example.ERPSpringBootBackEnd.dto.DesignationDto;
 import com.example.ERPSpringBootBackEnd.dto.UserDto;
 import com.example.ERPSpringBootBackEnd.services.DesignationService;
 import com.example.ERPSpringBootBackEnd.services.UserService;

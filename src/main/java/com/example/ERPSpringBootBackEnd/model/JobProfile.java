@@ -2,6 +2,8 @@ package com.example.ERPSpringBootBackEnd.model;
 
 import com.example.ERPSpringBootBackEnd.dto.JobProfileDto;
 import com.example.ERPSpringBootBackEnd.enums.Currency;
+import com.example.ERPSpringBootBackEnd.enums.DesignationLevel;
+import com.example.ERPSpringBootBackEnd.enums.EmploymentType;
 import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -32,15 +34,18 @@ public class JobProfile implements Serializable {
     @Column(unique = true)
     private String employeeId;
 
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date joiningDate;
 
     @Enumerated(EnumType.STRING)
     private Currency currency;
 
-    private String employmentType;
-    private String level;
+    @Enumerated(EnumType.STRING)
+    private EmploymentType employmentType;
+
+    @Enumerated(EnumType.STRING)
+    private DesignationLevel level;
+
     private double compensation;
     private double basicSalary;
 
@@ -96,8 +101,8 @@ public class JobProfile implements Serializable {
     public JobProfileDto convertToDto() {
         return JobProfileDto.builder()
                 .employeeId(employeeId)
-                .employmentType(employmentType)
-                .level(level)
+                .employmentType(employmentType.getTitle())
+                .level(level.getTitle())
                 .joiningDate(DateUtils.formatDate(joiningDate))
                 .basicSalary(basicSalary)
                 .compensation(compensation)
