@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/leave")
 public class LeaveApplicationController {
     @Autowired
     private LeaveApplicationService service;
 
-    @PostMapping("/add-leaveApplication")
+    @PostMapping("/create-application")
     @RolesAllowed({"ADMIN", "USER"})
     public ResponseEntity<LeaveApplication> save(@RequestBody LeaveApplicationDto leaveApplicationDto) {
        LeaveApplication leaveApplication = service.save(leaveApplicationDto);
@@ -27,9 +27,11 @@ public class LeaveApplicationController {
                : ResponseEntity.ok().body(leaveApplication);
     }
 
-    @GetMapping("/leaveApplications")
+    @GetMapping("/applications")
     @RolesAllowed({"ADMIN"})
-    public  ResponseEntity<List<LeaveApplicationDto>> getAllLeaveApplications() {
-        return ResponseEntity.ok().body(service.getAllLeaveApplication());
+    public  ResponseEntity<List<LeaveApplicationDto>> getAllLeaveApplications(@RequestParam(required = false) String userId) {
+        return Objects.isNull(userId)
+                ? ResponseEntity.ok().body(service.getAllLeaveApplication())
+                : ResponseEntity.ok().body(service.getApplicationsByUserId(userId));
     }
 }

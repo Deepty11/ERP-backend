@@ -120,21 +120,4 @@ public class User implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
-
-    public UserDto convertToDto() {
-        return UserDto.builder()
-                .id(id)
-                .firstName(firstName)
-                .lastName(lastName)
-                .username(userName)
-                .password(password)
-                .gender(gender != null ? gender.toString() : "")
-                .religion(religion != null ? religion.toString() : "")
-                .role(role != null ? role.toString() : "")
-                .birthDate(DateUtils.formatDate(birthDate))
-                .jobProfileDto(jobProfile != null ? jobProfile.convertToDto() : null)
-                .contactInfoDto(contactInfo != null ? contactInfo.convertToDto(): null)
-                .emergencyContactInfoDto(emergencyContact!= null ? emergencyContact.convertToDto() : null)
-                .build();
-    }
 }

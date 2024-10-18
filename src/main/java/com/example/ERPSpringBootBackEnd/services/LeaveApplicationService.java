@@ -26,7 +26,7 @@ public class LeaveApplicationService {
     public LeaveApplication save(LeaveApplicationDto leaveApplicationDto) {
         User user = userService.getUserByUsername(leaveApplicationDto.getUserDto().getUsername());
 
-        if(Objects.isNull(user)) {
+        if (Objects.isNull(user)) {
             return null;
         }
 
@@ -43,7 +43,11 @@ public class LeaveApplicationService {
     }
 
     public List<LeaveApplicationDto> getAllLeaveApplication() {
-        return repository.findAll()
+        return convertToDtoList(repository.findAll());
+    }
+
+    public List<LeaveApplicationDto> convertToDtoList(List<LeaveApplication> list) {
+        return list
                 .stream()
                 .map(leaveApplication -> convertToDto(leaveApplication))
                 .collect(Collectors.toList());
@@ -64,5 +68,18 @@ public class LeaveApplicationService {
                         user.getLastName(),
                         user.getUsername(),
                         user.getRole().toString()));
+    }
+
+    public List<LeaveApplicationDto> getApplicationsByUserId(String userId) {
+        long id = Long.parseLong(userId);
+
+        List<LeaveApplication> list = repository
+                .findAll()
+                .stream()
+                .filter(leaveApplication ->
+                        leaveApplication.getUser().getId() == id)
+                .toList();
+
+        return convertToDtoList(list);
     }
 }

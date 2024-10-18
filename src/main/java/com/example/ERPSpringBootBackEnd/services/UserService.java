@@ -112,7 +112,12 @@ public class UserService implements UserDetailsService {
         List<User> users = userRepository.findAll();
         return users
                 .stream()
-                .map(user -> user.convertToDto()).collect(Collectors.toList());
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getUsername(),
+                        user.getRole().getName())).collect(Collectors.toList());
     }
 
     public User getUserById(long id) {
@@ -127,6 +132,7 @@ public class UserService implements UserDetailsService {
     public UserDto getUserDtoByUsername(String username) {
         User user = getUserByUsername(username);
         return Objects.isNull(user) ? null : new UserDto(
+                user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getUsername(),
