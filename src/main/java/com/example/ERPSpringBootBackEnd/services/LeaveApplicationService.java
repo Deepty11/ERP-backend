@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class LeaveApplicationService {
@@ -23,8 +22,12 @@ public class LeaveApplicationService {
     @Autowired
     private UserService userService;
 
+    public int totalAllowedSickLeaves = 3;
+    public int totalAllowedCasualLeaves = 14;
+
     public LeaveApplication save(LeaveApplicationDto leaveApplicationDto) {
-        User user = userService.getUserByUsername(leaveApplicationDto.getUserDto().getUsername());
+        User user = userService.getUserByUsername(
+                leaveApplicationDto.getUserDto().getUsername());
 
         if (Objects.isNull(user)) {
             return null;
@@ -50,7 +53,7 @@ public class LeaveApplicationService {
         return list
                 .stream()
                 .map(leaveApplication -> convertToDto(leaveApplication))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public LeaveApplicationDto convertToDto(LeaveApplication leaveApplication) {
@@ -64,22 +67,48 @@ public class LeaveApplicationService {
                 DateUtils.formatDate(leaveApplication.getToDate()),
                 leaveApplication.getStatus().getTitle(),
                 new UserDto(
+                        user.getId(),
                         user.getFirstName(),
                         user.getLastName(),
                         user.getUsername(),
                         user.getRole().toString()));
     }
 
-    public List<LeaveApplicationDto> getApplicationsByUserId(String userId) {
-        long id = Long.parseLong(userId);
+    public List<LeaveApplicationDto> getAllSickLeavesByUserId(long userId) {
+        return getAllLeaves(userId, LeaveType.SICK);
+    }
 
-        List<LeaveApplication> list = repository
-                .findAll()
+    public List<LeaveApplicationDto> getAllCasualLeavesByUserId(long userId) {
+        return getAllLeaves(userId, LeaveType.CASUAL);
+    }
+
+    public List<LeaveApplicationDto> getAllLeaves(long userId, LeaveType leaveType) {
+        List<LeaveApplicationDto> leaves = getApplicationsByUserId(userId);
+        return leaves
                 .stream()
-                .filter(leaveApplication ->
-                        leaveApplication.getUser().getId() == id)
+                .filter((leaveApplicationDto ->
+                        leaveApplicationDto.getLeaveType().equals(leaveType.getTitle())
+                ))
                 .toList();
+    }
 
-        return convertToDtoList(list);
+    public int getNumberOfLeaves(List<LeaveApplicationDto> leaveApplicationDtos) {
+        return leaveApplicationDtos.size();
+    }
+
+    public int getRemainingSickLeaves(long userId) {
+        return totalAllowedSickLeaves - getNumberOfLeaves(getAllSickLeavesByUserId(userId));
+    }
+
+    public int getRemainingCasualLeaves(long userId) {
+        return totalAllowedCasualLeaves - getNumberOfLeaves(getAllCasualLeavesByUserId(userId));
+    }
+
+    public List<LeaveApplicationDto> getApplicationsByUserId(long userId) {
+        List<LeaveApplicationDto> allLeavesDto = getAllLeaveApplication();
+        return allLeavesDto.stream().filter((leaveApplicationDto ->
+                        leaveApplicationDto.getUserDto().getId() == userId
+                ))
+                .toList();
     }
 }
