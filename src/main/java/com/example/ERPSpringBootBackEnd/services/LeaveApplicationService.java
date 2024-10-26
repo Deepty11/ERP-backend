@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class LeaveApplicationService {
@@ -42,6 +43,10 @@ public class LeaveApplicationService {
                 .status(LeaveStatus.getLeaveStatus(leaveApplicationDto.getStatus()))
                 .user(user)
                 .build();
+        return saveLeaveApplication(leaveApplication);
+    }
+
+    public LeaveApplication saveLeaveApplication(LeaveApplication leaveApplication) {
         return repository.save(leaveApplication);
     }
 
@@ -110,5 +115,9 @@ public class LeaveApplicationService {
                         leaveApplicationDto.getUserDto().getId() == userId
                 ))
                 .toList();
+    }
+
+    public Optional<LeaveApplication> getLeaveApplicationById(long id) {
+        return repository.findById(id);
     }
 }
