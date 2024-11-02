@@ -40,10 +40,6 @@ public class UserDto {
 //    @JoinColumn(name = "user_document_id")
 //    private UserDocument document;
 //
-//    @OneToOne
-//    @JoinColumn(name = "job_info_id")
-//    private JobInformation jobInformation;
-//
 //    @OneToMany(mappedBy = "user")
 //    private List<LeaveInfo> leaveInfo;
 

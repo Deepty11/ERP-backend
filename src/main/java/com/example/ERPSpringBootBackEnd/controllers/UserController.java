@@ -4,9 +4,11 @@ import com.example.ERPSpringBootBackEnd.dto.requestDto.UserDto;
 import com.example.ERPSpringBootBackEnd.dto.responseDto.ErrorResponseDto;
 import com.example.ERPSpringBootBackEnd.dto.responseDto.SuccessResponseDto;
 import com.example.ERPSpringBootBackEnd.enums.DBState;
+import com.example.ERPSpringBootBackEnd.model.User;
 import com.example.ERPSpringBootBackEnd.services.UserService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +48,14 @@ public class UserController {
     }
 
     @GetMapping("/loggedInUser")
-    public ResponseEntity<UserDto> getUserByUsername(@RequestParam String username) {
+    public ResponseEntity<UserDto> getLoggedInUser(@RequestParam String username) {
         return ResponseEntity.ok().body(userService.getUserDtoByUsername(username));
+    }
+
+    @GetMapping("/getUserDetails")
+    public ResponseEntity<?> getUserDetails(@RequestParam long id) {
+        User user = userService.getUserById(id);
+        UserDto userDto = userService.getUserDtoFromUser(user);
+        return ResponseEntity.ok().body(userDto);
     }
 }

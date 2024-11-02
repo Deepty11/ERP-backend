@@ -18,3 +18,8 @@ public class JobProfileDto {
     private double compensation;
     private DesignationDto designationDto;
 }
+
+
+
+
+

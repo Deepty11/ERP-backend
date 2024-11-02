@@ -1,7 +1,10 @@
 package com.example.ERPSpringBootBackEnd.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum Religion {
     ISLAM("Islam"),
     HINDUISM("Hinduism"),

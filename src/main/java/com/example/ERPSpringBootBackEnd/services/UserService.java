@@ -142,19 +142,29 @@ public class UserService implements UserDetailsService {
                 user.getRole().toString());
     }
 
+    public UserDto getUserDtoFromUser(User user) {
+        return Objects.isNull(user)
+                ? null
+                : UserDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .username(user.getUsername())
+                .role(user.getRole().getName())
+                .birthDate(DateUtils.formatDate(user.getBirthDate()))
+                .gender(user.getGender().getName())
+                .religion(user.getReligion().getName())
+//                .jobProfileDto(new JobProfileDto(
+//                        user.getJobProfile().getId(),
+//                        user.getJobProfile().getEmployeeId(),
+//                        user.getJobProfile().))
+                .build();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findUserByUserName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-    }
-}
-
-
-class ResourceNotFoundException extends Exception {
-    String message;
-
-    ResourceNotFoundException(String message) {
-        this.message = message;
     }
 }
