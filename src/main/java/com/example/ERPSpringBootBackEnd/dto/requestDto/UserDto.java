@@ -1,6 +1,7 @@
-package com.example.ERPSpringBootBackEnd.dto;
+package com.example.ERPSpringBootBackEnd.dto.requestDto;
 
-import com.example.ERPSpringBootBackEnd.model.JobProfile;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
@@ -11,10 +12,20 @@ import lombok.*;
 @Builder
 public class UserDto {
     private long id;
+
+    @NotNull
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @NotBlank
     private String username;
+
+    @NotBlank
     private String password;
+
+    @NotNull
     private String role;
     private String birthDate;
     private String gender;

@@ -1,7 +1,7 @@
 package com.example.ERPSpringBootBackEnd.controllers;
 
-import com.example.ERPSpringBootBackEnd.dto.AuthenticationRequest;
-import com.example.ERPSpringBootBackEnd.dto.AuthenticationResponse;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.AuthenticationRequest;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.AuthenticationResponse;
 import com.example.ERPSpringBootBackEnd.exception.AuthenticationFailedException;
 import com.example.ERPSpringBootBackEnd.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;

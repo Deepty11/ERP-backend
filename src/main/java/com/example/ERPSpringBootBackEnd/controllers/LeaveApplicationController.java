@@ -1,7 +1,7 @@
 package com.example.ERPSpringBootBackEnd.controllers;
 
-import com.example.ERPSpringBootBackEnd.dto.LeaveApplicationDto;
-import com.example.ERPSpringBootBackEnd.dto.LeaveOverviewDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.LeaveApplicationDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.LeaveOverviewDto;
 import com.example.ERPSpringBootBackEnd.enums.LeaveStatus;
 import com.example.ERPSpringBootBackEnd.model.LeaveApplication;
 import com.example.ERPSpringBootBackEnd.services.LeaveApplicationService;
@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

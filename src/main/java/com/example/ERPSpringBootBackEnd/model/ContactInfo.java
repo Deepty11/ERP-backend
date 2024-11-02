@@ -1,6 +1,6 @@
 package com.example.ERPSpringBootBackEnd.model;
 
-import com.example.ERPSpringBootBackEnd.dto.ContactInfoDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.ContactInfoDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

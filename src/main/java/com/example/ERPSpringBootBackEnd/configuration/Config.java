@@ -1,5 +1,5 @@
 package com.example.ERPSpringBootBackEnd.configuration;
-import com.example.ERPSpringBootBackEnd.dto.UserDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.UserDto;
 import com.example.ERPSpringBootBackEnd.services.DesignationService;
 import com.example.ERPSpringBootBackEnd.services.UserService;
 import org.springframework.boot.CommandLineRunner;

@@ -1,8 +1,6 @@
 package com.example.ERPSpringBootBackEnd.model;
 
-import com.example.ERPSpringBootBackEnd.dto.DesignationDto;
-import com.example.ERPSpringBootBackEnd.enums.DesignationLevel;
-import com.example.ERPSpringBootBackEnd.enums.EmploymentType;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.DesignationDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

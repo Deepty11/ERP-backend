@@ -1,6 +1,5 @@
-package com.example.ERPSpringBootBackEnd.dto;
+package com.example.ERPSpringBootBackEnd.dto.requestDto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

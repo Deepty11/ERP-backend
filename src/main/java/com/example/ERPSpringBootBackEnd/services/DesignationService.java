@@ -1,6 +1,6 @@
 package com.example.ERPSpringBootBackEnd.services;
 
-import com.example.ERPSpringBootBackEnd.dto.DesignationDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.DesignationDto;
 import com.example.ERPSpringBootBackEnd.enums.DesignationLevel;
 import com.example.ERPSpringBootBackEnd.enums.EmploymentType;
 import com.example.ERPSpringBootBackEnd.model.Designation;

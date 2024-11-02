@@ -1,10 +1,8 @@
 package com.example.ERPSpringBootBackEnd.model;
 
-import com.example.ERPSpringBootBackEnd.dto.UserDto;
 import com.example.ERPSpringBootBackEnd.enums.Gender;
 import com.example.ERPSpringBootBackEnd.enums.Religion;
 import com.example.ERPSpringBootBackEnd.enums.Role;
-import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

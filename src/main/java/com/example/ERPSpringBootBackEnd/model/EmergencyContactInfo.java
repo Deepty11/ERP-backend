@@ -1,6 +1,6 @@
 package com.example.ERPSpringBootBackEnd.model;
 
-import com.example.ERPSpringBootBackEnd.dto.EmergencyContactInfoDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.EmergencyContactInfoDto;
 import com.example.ERPSpringBootBackEnd.enums.Relationship;
 import jakarta.persistence.*;
 import lombok.*;

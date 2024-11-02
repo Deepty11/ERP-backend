@@ -1,4 +1,4 @@
-package com.example.ERPSpringBootBackEnd.dto;
+package com.example.ERPSpringBootBackEnd.dto.requestDto;
 
 import com.example.ERPSpringBootBackEnd.model.Designation;
 import com.example.ERPSpringBootBackEnd.model.SalaryRange;

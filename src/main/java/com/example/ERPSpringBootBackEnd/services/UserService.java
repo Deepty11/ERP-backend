@@ -1,10 +1,9 @@
 package com.example.ERPSpringBootBackEnd.services;
 
 import ch.qos.logback.core.util.StringUtil;
-import com.example.ERPSpringBootBackEnd.dto.ContactInfoDto;
-import com.example.ERPSpringBootBackEnd.dto.JobProfileDto;
-import com.example.ERPSpringBootBackEnd.dto.LeaveApplicationDto;
-import com.example.ERPSpringBootBackEnd.dto.UserDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.ContactInfoDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.JobProfileDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.UserDto;
 import com.example.ERPSpringBootBackEnd.enums.*;
 import com.example.ERPSpringBootBackEnd.model.ContactInfo;
 import com.example.ERPSpringBootBackEnd.model.Designation;
@@ -26,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,10 +43,10 @@ public class UserService implements UserDetailsService {
     private DesignationRepository designationRepository;
 
     @Transactional
-    public User save(UserDto userDto) throws ParseException {
+    public DBState save(UserDto userDto) {
         if (userRepository.existsUserByUserName(userDto.getUsername())) {
             System.out.println("User with the username already exists");
-            return null;
+            return DBState.ALREADY_EXIST;
         }
 
         User user = new User();
@@ -70,10 +68,15 @@ public class UserService implements UserDetailsService {
 
         if (StringUtil.notNullNorEmpty(userDto.getBirthDate())) {
             System.out.println("Birthdate: " + userDto.getBirthDate());
-            user.setBirthDate(DateUtils.convertToDate(userDto.getBirthDate()));
+            try {
+                user.setBirthDate(DateUtils.convertToDate(userDto.getBirthDate()));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
 
-        return userRepository.save(user);
+        userRepository.save(user);
+        return DBState.SAVED;
     }
 
     private ContactInfo mapToContactInfo(ContactInfoDto contactInfoDto) {

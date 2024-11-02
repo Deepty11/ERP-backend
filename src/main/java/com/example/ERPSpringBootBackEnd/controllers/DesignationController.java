@@ -1,6 +1,6 @@
 package com.example.ERPSpringBootBackEnd.controllers;
 
-import com.example.ERPSpringBootBackEnd.dto.DesignationDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.DesignationDto;
 import com.example.ERPSpringBootBackEnd.model.Designation;
 import com.example.ERPSpringBootBackEnd.services.DesignationService;
 import jakarta.annotation.security.RolesAllowed;

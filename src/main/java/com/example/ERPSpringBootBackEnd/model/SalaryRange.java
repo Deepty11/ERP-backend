@@ -1,6 +1,6 @@
 package com.example.ERPSpringBootBackEnd.model;
 
-import com.example.ERPSpringBootBackEnd.dto.SalaryRangeDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.SalaryRangeDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

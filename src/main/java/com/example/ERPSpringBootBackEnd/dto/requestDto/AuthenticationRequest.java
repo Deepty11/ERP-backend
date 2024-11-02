@@ -1,4 +1,4 @@
-package com.example.ERPSpringBootBackEnd.dto;
+package com.example.ERPSpringBootBackEnd.dto.requestDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

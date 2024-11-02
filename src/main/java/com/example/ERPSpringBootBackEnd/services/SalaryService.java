@@ -1,6 +1,6 @@
 package com.example.ERPSpringBootBackEnd.services;
 
-import com.example.ERPSpringBootBackEnd.dto.SalaryRangeDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.SalaryRangeDto;
 import com.example.ERPSpringBootBackEnd.model.SalaryRange;
 import com.example.ERPSpringBootBackEnd.repositories.SalaryRangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

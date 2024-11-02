@@ -1,6 +1,6 @@
 package com.example.ERPSpringBootBackEnd.model;
 
-import com.example.ERPSpringBootBackEnd.dto.JobProfileDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.JobProfileDto;
 import com.example.ERPSpringBootBackEnd.enums.Currency;
 import com.example.ERPSpringBootBackEnd.enums.DesignationLevel;
 import com.example.ERPSpringBootBackEnd.enums.EmploymentType;
@@ -30,7 +30,7 @@ public class JobProfile implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
+//    @NotNull
     @Column(unique = true)
     private String employeeId;
 
@@ -53,7 +53,7 @@ public class JobProfile implements Serializable {
 //    private double medicalReimbursement;
 //    private double houseRent;
 
-    @NotNull
+//    @NotNull
     @ManyToOne
     @JoinColumn(name = "designation_id")
     private Designation designation;

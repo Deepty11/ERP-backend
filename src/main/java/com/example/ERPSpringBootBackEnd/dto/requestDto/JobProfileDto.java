@@ -1,5 +1,6 @@
-package com.example.ERPSpringBootBackEnd.dto;
+package com.example.ERPSpringBootBackEnd.dto.requestDto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @AllArgsConstructor
@@ -8,6 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 public class JobProfileDto {
+    @NotNull
     private String employeeId;
     private String employmentType;
     private String level;

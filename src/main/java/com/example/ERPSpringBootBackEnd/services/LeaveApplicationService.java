@@ -1,7 +1,7 @@
 package com.example.ERPSpringBootBackEnd.services;
 
-import com.example.ERPSpringBootBackEnd.dto.LeaveApplicationDto;
-import com.example.ERPSpringBootBackEnd.dto.UserDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.LeaveApplicationDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.UserDto;
 import com.example.ERPSpringBootBackEnd.enums.LeaveStatus;
 import com.example.ERPSpringBootBackEnd.enums.LeaveType;
 import com.example.ERPSpringBootBackEnd.model.LeaveApplication;
