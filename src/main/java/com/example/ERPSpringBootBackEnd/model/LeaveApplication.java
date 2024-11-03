@@ -75,14 +75,28 @@ public class LeaveApplication implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LeaveInfo)) return false;
-        LeaveInfo leaveInfo = (LeaveInfo) o;
+        if (!(o instanceof LeaveApplication)) return false;
+        LeaveApplication leaveInfo = (LeaveApplication) o;
         return id == leaveInfo.getId();
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public LeaveApplication(LeaveType leaveType,
+                            String description,
+                            LeaveStatus status,
+                            Date fromDate,
+                            Date toDate,
+                            Date created) {
+        this.leaveType = leaveType;
+        this.description = description;
+        this.status = status;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        this.created = created;
     }
 }
 

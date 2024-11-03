@@ -25,16 +25,4 @@ public class DesignationDto {
         this.title = title;
         this.description = description;
     }
-
-    public Designation convertToDesignation() {
-        Designation designation = new Designation();
-        designation.setTitle(this.getTitle());
-        designation.setDescription(getDescription());
-
-        if (getSalaryRange() != null) {
-            designation.setSalaryRange(new SalaryRange(getSalaryRange().getMin(), getSalaryRange().getMax()));
-        }
-
-        return designation;
-    }
 }

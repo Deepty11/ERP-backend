@@ -5,6 +5,7 @@ import com.example.ERPSpringBootBackEnd.enums.Religion;
 import com.example.ERPSpringBootBackEnd.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -63,7 +64,7 @@ public class User implements UserDetails, Serializable {
     private JobProfile jobProfile;
 
     @OneToMany(mappedBy = "user")
-    private List<LeaveInfo> leaveInfo;
+    private List<LeaveApplication> leaveApplications;
 
     @Transient
     private String fullName;

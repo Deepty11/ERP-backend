@@ -1,8 +1,11 @@
 package com.example.ERPSpringBootBackEnd.dto.requestDto;
 
+import com.example.ERPSpringBootBackEnd.model.LeaveApplication;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 
 @Data
@@ -33,6 +36,7 @@ public class UserDto {
     private ContactInfoDto contactInfoDto;
     private EmergencyContactInfoDto emergencyContactInfoDto;
     private JobProfileDto jobProfileDto;
+    private List<LeaveApplicationDto> leaveApplicationDtos;
 
 
     // TODO: Add these fields later

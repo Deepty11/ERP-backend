@@ -1,31 +1,19 @@
 package com.example.ERPSpringBootBackEnd.services;
 
-import ch.qos.logback.core.util.StringUtil;
-import com.example.ERPSpringBootBackEnd.dto.requestDto.ContactInfoDto;
-import com.example.ERPSpringBootBackEnd.dto.requestDto.JobProfileDto;
-import com.example.ERPSpringBootBackEnd.dto.requestDto.UserDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.*;
 import com.example.ERPSpringBootBackEnd.enums.*;
-import com.example.ERPSpringBootBackEnd.model.ContactInfo;
-import com.example.ERPSpringBootBackEnd.model.Designation;
-import com.example.ERPSpringBootBackEnd.model.JobProfile;
-import com.example.ERPSpringBootBackEnd.model.User;
-import com.example.ERPSpringBootBackEnd.repositories.ContactInfoRepository;
-import com.example.ERPSpringBootBackEnd.repositories.DesignationRepository;
-import com.example.ERPSpringBootBackEnd.repositories.JobProfileRepository;
+import com.example.ERPSpringBootBackEnd.model.*;
 import com.example.ERPSpringBootBackEnd.repositories.UserRepository;
-import com.example.ERPSpringBootBackEnd.utils.DateUtils;
+import com.example.ERPSpringBootBackEnd.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -34,13 +22,10 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private ContactInfoRepository contactInfoRepository;
+    private JobProfileService jobProfileService;
 
     @Autowired
-    private JobProfileRepository jobProfileRepository;
-
-    @Autowired
-    private DesignationRepository designationRepository;
+    private ContactInfoService contactInfoService;
 
     @Transactional
     public DBState save(UserDto userDto) {
@@ -49,78 +34,24 @@ public class UserService implements UserDetailsService {
             return DBState.ALREADY_EXIST;
         }
 
-        User user = new User();
-        user.setUserName(userDto.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setGender(Gender.getGender(userDto.getGender()));
-        user.setReligion(Religion.getReligion(userDto.getReligion()));
-        user.setRole(Role.getRole(userDto.getRole()));
+        User user = UserMapper.toUser(userDto);
 
         if (userDto.getContactInfoDto() != null) {
-            user.setContactInfo(mapToContactInfo(userDto.getContactInfoDto()));
+            user.setContactInfo(contactInfoService.save(userDto.getContactInfoDto()));
         }
 
         if (userDto.getJobProfileDto() != null) {
-            user.setJobProfile(mapToJobProfile(userDto.getJobProfileDto()));
-        }
-
-        if (StringUtil.notNullNorEmpty(userDto.getBirthDate())) {
-            System.out.println("Birthdate: " + userDto.getBirthDate());
-            try {
-                user.setBirthDate(DateUtils.convertToDate(userDto.getBirthDate()));
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+            JobProfile jobProfile = jobProfileService.save(userDto.getJobProfileDto());
+            user.setJobProfile(jobProfile);
         }
 
         userRepository.save(user);
         return DBState.SAVED;
     }
 
-    private ContactInfo mapToContactInfo(ContactInfoDto contactInfoDto) {
-        ContactInfo contactInfo = ContactInfo.builder()
-                .email(contactInfoDto.getEmail())
-                .mobileNumber(contactInfoDto.getMobileNumber())
-                .address(contactInfoDto.getAddress())
-                .build();
-        contactInfoRepository.save(contactInfo);
-        return contactInfo;
-    }
-
-    private JobProfile mapToJobProfile(JobProfileDto jobProfileDto) {
-        JobProfile jobProfile = JobProfile.builder()
-                .employeeId(jobProfileDto.getEmployeeId())
-                .employmentType(EmploymentType.getEmploymentType(jobProfileDto.getEmploymentType()))
-                .level(DesignationLevel.getDesignationLevel(jobProfileDto.getLevel()))
-                .basicSalary(jobProfileDto.getBasicSalary())
-                .compensation(jobProfileDto.getCompensation())
-                .build();
-
-        if (jobProfileDto.getDesignationDto() != null) {
-            Designation designation = jobProfileDto.getDesignationDto().convertToDesignation();
-            designationRepository.save(designation);
-            jobProfile.setDesignation(designation);
-        }
-        if (!jobProfileDto.getJoiningDate().isEmpty()) {
-            jobProfile.setJoiningDate(DateUtils.parseDate(jobProfileDto.getJoiningDate()));
-        }
-
-        jobProfileRepository.save(jobProfile);
-        return jobProfile;
-    }
-
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
-        return users
-                .stream()
-                .map(user -> new UserDto(
-                        user.getId(),
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getUsername(),
-                        user.getRole().getName())).collect(Collectors.toList());
+        return UserMapper.toListOfUserDto(users);
     }
 
     public User getUserById(long id) {
@@ -142,23 +73,9 @@ public class UserService implements UserDetailsService {
                 user.getRole().toString());
     }
 
-    public UserDto getUserDtoFromUser(User user) {
-        return Objects.isNull(user)
-                ? null
-                : UserDto.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .username(user.getUsername())
-                .role(user.getRole().getName())
-                .birthDate(DateUtils.formatDate(user.getBirthDate()))
-                .gender(user.getGender().getName())
-                .religion(user.getReligion().getName())
-//                .jobProfileDto(new JobProfileDto(
-//                        user.getJobProfile().getId(),
-//                        user.getJobProfile().getEmployeeId(),
-//                        user.getJobProfile().))
-                .build();
+    public UserDto getUserDetailsForId(long id) {
+        User user = userRepository.findById(id).orElse(null);
+        return UserMapper.toUserDto(user);
     }
 
     @Override

@@ -1,4 +1,6 @@
 package com.example.ERPSpringBootBackEnd.dto.requestDto;
+import com.example.ERPSpringBootBackEnd.model.LeaveApplication;
+import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import lombok.*;
 
 @Getter
@@ -14,4 +16,14 @@ public class LeaveApplicationDto {
     private String toDate;
     private String status;
     private UserDto userDto;
+    private String created;
+
+    public LeaveApplicationDto(LeaveApplication leaveApplication) {
+        this.created = DateUtils.formatDate(leaveApplication.getCreated());
+        this.fromDate = DateUtils.formatDate(leaveApplication.getFromDate());
+        this.toDate = DateUtils.formatDate(leaveApplication.getToDate());
+        this.leaveType = leaveApplication.getLeaveType().getTitle();
+        this.description = leaveApplication.getDescription();
+        this.status = leaveApplication.getStatus().getTitle();
+    }
 }

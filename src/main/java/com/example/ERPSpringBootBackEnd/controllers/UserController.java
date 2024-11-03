@@ -54,8 +54,7 @@ public class UserController {
 
     @GetMapping("/getUserDetails")
     public ResponseEntity<?> getUserDetails(@RequestParam long id) {
-        User user = userService.getUserById(id);
-        UserDto userDto = userService.getUserDtoFromUser(user);
+        UserDto userDto = userService.getUserDetailsForId(id);
         return ResponseEntity.ok().body(userDto);
     }
 }

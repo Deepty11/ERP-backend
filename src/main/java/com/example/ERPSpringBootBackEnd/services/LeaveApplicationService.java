@@ -1,13 +1,13 @@
 package com.example.ERPSpringBootBackEnd.services;
 
 import com.example.ERPSpringBootBackEnd.dto.requestDto.LeaveApplicationDto;
-import com.example.ERPSpringBootBackEnd.dto.requestDto.UserDto;
 import com.example.ERPSpringBootBackEnd.enums.LeaveStatus;
 import com.example.ERPSpringBootBackEnd.enums.LeaveType;
 import com.example.ERPSpringBootBackEnd.model.LeaveApplication;
 import com.example.ERPSpringBootBackEnd.model.User;
 import com.example.ERPSpringBootBackEnd.repositories.LeaveApplicationRepository;
 import com.example.ERPSpringBootBackEnd.utils.DateUtils;
+import com.example.ERPSpringBootBackEnd.mapper.LeaveApplicationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,32 +51,7 @@ public class LeaveApplicationService {
     }
 
     public List<LeaveApplicationDto> getAllLeaveApplication() {
-        return convertToDtoList(repository.findAll());
-    }
-
-    public List<LeaveApplicationDto> convertToDtoList(List<LeaveApplication> list) {
-        return list
-                .stream()
-                .map(leaveApplication -> convertToDto(leaveApplication))
-                .toList();
-    }
-
-    public LeaveApplicationDto convertToDto(LeaveApplication leaveApplication) {
-        User user = leaveApplication.getUser();
-
-        return new LeaveApplicationDto(
-                leaveApplication.getId(),
-                leaveApplication.getLeaveType().getTitle(),
-                leaveApplication.getDescription(),
-                DateUtils.formatDate(leaveApplication.getFromDate()),
-                DateUtils.formatDate(leaveApplication.getToDate()),
-                leaveApplication.getStatus().getTitle(),
-                new UserDto(
-                        user.getId(),
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getUsername(),
-                        user.getRole().toString()));
+        return LeaveApplicationMapper.toListOfLeaveApplicationDto(repository.findAll());
     }
 
     public List<LeaveApplicationDto> getAllSickLeavesByUserId(long userId) {

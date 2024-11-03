@@ -1,14 +1,11 @@
 package com.example.ERPSpringBootBackEnd.services;
 
 import com.example.ERPSpringBootBackEnd.dto.requestDto.DesignationDto;
-import com.example.ERPSpringBootBackEnd.enums.DesignationLevel;
-import com.example.ERPSpringBootBackEnd.enums.EmploymentType;
 import com.example.ERPSpringBootBackEnd.model.Designation;
 import com.example.ERPSpringBootBackEnd.repositories.DesignationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,19 +17,6 @@ public class DesignationService {
 
     @Autowired
     private SalaryService salaryService;
-
-
-    EmploymentType getEmploymentType(String name) {
-        return Arrays.stream(EmploymentType.values())
-                .filter(type -> type.getTitle().equals(name))
-                .findFirst().orElse(null);
-    }
-
-    DesignationLevel getDesignationLevel(String name) {
-        return Arrays.stream(DesignationLevel.values())
-                .filter(type -> type.getTitle().equals(name))
-                .findFirst().orElse(null);
-    }
 
     public Designation save(DesignationDto designationDto) {
         Designation designation =  new Designation();

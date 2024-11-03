@@ -1,30 +1,28 @@
 package com.example.ERPSpringBootBackEnd.enums;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public enum Relationship {
     PARENTS("Parents"),
     SPOUSE("Spouse"),
     CHILDREN("Children"),
     OTHER("Other");
 
-    private String relation;
-
-//    @Override
-//    public String toString() {
-//        return relation;
-//    }
+    private String title;
 
 
     Relationship(String relation) {
-        this.relation = relation;
+        this.title = relation;
     }
 
     public static List<String> getRelationshipList() {
         List<String> relationshipList = new ArrayList<>();
         for (Relationship r: Relationship.values()) {
-            relationshipList.add(r.relation);
+            relationshipList.add(r.title);
         }
 
         return relationshipList;
