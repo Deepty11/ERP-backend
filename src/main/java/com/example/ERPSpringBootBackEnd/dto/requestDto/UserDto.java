@@ -77,4 +77,30 @@ public class UserDto {
         this.username = username;
         this.role = role;
     }
+
+    public UserDto(String firstName,
+                   String lastName,
+                   String username,
+                   String password,
+                   String role,
+                   String birthDate,
+                   String gender,
+                   String religion,
+                   ContactInfoDto contactInfoDto,
+                   EmergencyContactInfoDto emergencyContactInfoDto,
+                   JobProfileDto jobProfileDto,
+                   List<LeaveApplicationDto> leaveApplicationDtos) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.religion = religion;
+        this.contactInfoDto = contactInfoDto;
+        this.emergencyContactInfoDto = emergencyContactInfoDto;
+        this.jobProfileDto = jobProfileDto;
+        this.leaveApplicationDtos = leaveApplicationDtos;
+    }
 }
