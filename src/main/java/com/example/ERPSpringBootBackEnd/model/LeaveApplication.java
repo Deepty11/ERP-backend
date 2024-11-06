@@ -1,5 +1,6 @@
 package com.example.ERPSpringBootBackEnd.model;
 
+import com.example.ERPSpringBootBackEnd.dto.requestDto.LeaveApplicationDto;
 import com.example.ERPSpringBootBackEnd.enums.LeaveStatus;
 import com.example.ERPSpringBootBackEnd.enums.LeaveType;
 import com.example.ERPSpringBootBackEnd.utils.DateUtils;
@@ -85,18 +86,12 @@ public class LeaveApplication implements Serializable {
         return Objects.hash(id);
     }
 
-    public LeaveApplication(LeaveType leaveType,
-                            String description,
-                            LeaveStatus status,
-                            Date fromDate,
-                            Date toDate,
-                            Date created) {
-        this.leaveType = leaveType;
-        this.description = description;
-        this.status = status;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
-        this.created = created;
+    public LeaveApplication(LeaveApplicationDto leaveApplicationDto) {
+        this.leaveType = LeaveType.getLeaveType(leaveApplicationDto.getLeaveType());
+        this.description = leaveApplicationDto.getDescription();
+        this.status = LeaveStatus.getLeaveStatus(leaveApplicationDto.getStatus());
+        this.fromDate = DateUtils.parseDate(leaveApplicationDto.getFromDate());
+        this.toDate = DateUtils.parseDate(leaveApplicationDto.getToDate());
     }
 }
 

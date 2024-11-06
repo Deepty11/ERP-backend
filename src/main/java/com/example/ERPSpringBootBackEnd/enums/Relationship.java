@@ -3,6 +3,7 @@ package com.example.ERPSpringBootBackEnd.enums;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -12,7 +13,7 @@ public enum Relationship {
     CHILDREN("Children"),
     OTHER("Other");
 
-    private String title;
+    String title;
 
 
     Relationship(String relation) {
@@ -29,12 +30,11 @@ public enum Relationship {
     }
 
     public static Relationship getRelationship( String relationShipString) {
-        switch (relationShipString) {
-            case "Parents": return Relationship.PARENTS;
-            case "Spouse": return Relationship.SPOUSE;
-            case "Children": return Relationship.CHILDREN;
-            default: return Relationship.OTHER;
-        }
+        return Arrays.stream(Relationship.values())
+                .filter(r -> r.title.equalsIgnoreCase(relationShipString))
+                .findFirst()
+                .orElse(null);
+
     }
 }
 

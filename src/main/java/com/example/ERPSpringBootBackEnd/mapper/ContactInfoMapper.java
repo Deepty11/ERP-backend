@@ -12,4 +12,12 @@ public class ContactInfoMapper {
                 .build();
     }
 
+    public static ContactInfo toContactInfo(ContactInfoDto contactInfoDto) {
+        return ContactInfo.builder()
+                .mobileNumber(contactInfoDto.getMobileNumber())
+                .address(contactInfoDto.getAddress())
+                .email(contactInfoDto.getEmail())
+                .build();
+    }
+
 }

@@ -9,6 +9,7 @@ import com.example.ERPSpringBootBackEnd.services.UserService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.Data;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,5 +57,24 @@ public class UserController {
     public ResponseEntity<?> getUserDetails(@RequestParam long id) {
         UserDto userDto = userService.getUserDetailsForId(id);
         return ResponseEntity.ok().body(userDto);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateUserDetails(@RequestParam long id,
+                                               @RequestBody UserDto userDto) {
+        User updatedUserDetails = userService.updateUserDetailsForId(id, userDto);
+        if(Objects.isNull(updatedUserDetails)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ErrorResponseDto(
+                            "User not available",
+                            new Date().getTime(),
+                            null)
+            );
+        }
+
+       return ResponseEntity.ok().body(
+               new SuccessResponseDto(
+                       "User details updated successfully",
+                       new Date().getTime()));
     }
 }

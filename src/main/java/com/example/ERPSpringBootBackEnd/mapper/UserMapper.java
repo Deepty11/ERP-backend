@@ -18,7 +18,10 @@ public class UserMapper {
     public static User toUser(UserDto userDto) {
         User user = new User();
         user.setUserName(userDto.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        if(!Objects.isNull(userDto.getPassword())) {
+            user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        }
+
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setGender(Gender.getGender(userDto.getGender()));
@@ -32,6 +35,24 @@ public class UserMapper {
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        if(!Objects.isNull(userDto.getContactInfoDto())) {
+            user.setContactInfo(ContactInfoMapper.toContactInfo(userDto.getContactInfoDto()));
+        }
+
+        if(!Objects.isNull(userDto.getJobProfileDto())) {
+            user.setJobProfile(JobProfileMapper.toJobProfile(userDto.getJobProfileDto()));
+        }
+
+        if(!Objects.isNull(userDto.getEmergencyContactInfoDto())) {
+            user.setEmergencyContact(EmergencyContactInfoMapper.toEmergencyContactInfo(userDto.getEmergencyContactInfoDto()));
+        }
+
+        if(!Objects.isNull(userDto.getLeaveApplicationDtos())) {
+            user.setLeaveApplications(
+                    LeaveApplicationMapper.toListOfLeaveApplication(
+                            userDto.getLeaveApplicationDtos()));
         }
 
         return user;

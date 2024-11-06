@@ -6,6 +6,8 @@ import com.example.ERPSpringBootBackEnd.repositories.ContactInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ContactInfoService {
     @Autowired
@@ -19,5 +21,19 @@ public class ContactInfoService {
                 .build();
         contactInfoRepository.save(contactInfo);
         return contactInfo;
+    }
+
+    public ContactInfo update(long id, ContactInfoDto contactInfoDto) {
+        Optional<ContactInfo> optional = contactInfoRepository.findById(id);
+        if(optional.isPresent()) {
+            ContactInfo contactInfoFromDB = optional.get();
+            contactInfoFromDB.setAddress(contactInfoDto.getAddress());
+            contactInfoFromDB.setEmail(contactInfoDto.getEmail());
+            contactInfoFromDB.setAddress(contactInfoDto.getAddress());
+
+            return contactInfoRepository.save(contactInfoFromDB);
+        }
+
+        return null;
     }
 }
