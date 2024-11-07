@@ -17,7 +17,7 @@ public class AuthenticationService {
     @Autowired
     private TokenService tokenService;
 
-    public String authenticate(String username, String password) throws AuthenticationFailedException {
+    public String authenticate(String username, String password) {
         try {
             var authToken = new UsernamePasswordAuthenticationToken(username, password);
             System.out.println("Username: " + username);
@@ -27,7 +27,7 @@ public class AuthenticationService {
             String token = tokenService.generateToken(user);
             return token;
         } catch(AuthenticationException e) {
-            throw new AuthenticationFailedException("Invalid username or password");
+            return null;
         }
     }
 }

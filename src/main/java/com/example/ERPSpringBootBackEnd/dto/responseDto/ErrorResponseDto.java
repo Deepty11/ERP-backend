@@ -10,7 +10,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class ErrorResponseDto {
 
-    private String mesage;
+    private String message;
     private long timestamp;
     private Map<String, String> fieldErrors = new HashMap<>();
 }
