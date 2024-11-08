@@ -1,7 +1,5 @@
 package com.example.ERPSpringBootBackEnd.dto.requestDto;
 
-import com.example.ERPSpringBootBackEnd.model.Designation;
-import com.example.ERPSpringBootBackEnd.model.SalaryRange;
 import lombok.*;
 
 @Getter
@@ -13,7 +11,7 @@ public class DesignationDto {
     private long id;
     private String title;
     private String description;
-    private SalaryRangeDto salaryRange;
+    private SalaryRangeDto salaryRangeDto;
 
     public DesignationDto(long id, String title, String description) {
         this.id = id;

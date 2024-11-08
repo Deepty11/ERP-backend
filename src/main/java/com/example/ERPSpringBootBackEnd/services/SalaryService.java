@@ -16,4 +16,9 @@ public class SalaryService {
         repository.save(salaryRange);
         return salaryRange;
     }
+
+
+    public SalaryRange getSalaryRangeById(long id) {
+        return repository.findById(id).orElse(null);
+    }
 }
