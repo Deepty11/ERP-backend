@@ -22,6 +22,8 @@ public class UserDto {
     @NotBlank
     private String lastName;
 
+    private String fullName;
+
     @NotBlank
     private String username;
 
@@ -64,6 +66,7 @@ public class UserDto {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.fullName = firstName + " " + lastName;
         this.username = username;
         this.role = role;
     }

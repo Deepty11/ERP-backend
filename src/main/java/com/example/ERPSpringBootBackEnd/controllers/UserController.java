@@ -8,14 +8,14 @@ import com.example.ERPSpringBootBackEnd.model.User;
 import com.example.ERPSpringBootBackEnd.services.UserService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
-import lombok.Data;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/user")
@@ -77,4 +77,25 @@ public class UserController {
                        "User details updated successfully",
                        new Date().getTime()));
     }
+
+    @DeleteMapping("/delete")
+    @RolesAllowed({"ADMIN"})
+    public ResponseEntity<?> deleteById(@RequestParam long id) {
+        try {
+            userService.deleteUserById(id);
+            return ResponseEntity.ok().body(
+                    new ErrorResponseDto(
+                            "User is deleted successfully",
+                            new Date().getTime(),
+                            null));
+        } catch(Error error) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ErrorResponseDto(
+                            error.getMessage(),
+                            new Date().getTime(),
+                            null));
+        }
+    }
+
+
 }

@@ -57,8 +57,7 @@ public class DesignationController {
     public ResponseEntity<?> updateDesignationById(@RequestParam long id,
                                                    @RequestBody DesignationDto designationDto) {
         Designation designation = designationService.update(id, designationDto);
-        System.out.println("designation salary: ");
-        System.out.println(designation.getSalaryRange().getMax());
+
         if(Objects.isNull(designation)) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)

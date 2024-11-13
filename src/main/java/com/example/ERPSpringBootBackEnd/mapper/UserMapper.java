@@ -64,6 +64,7 @@ public class UserMapper {
                 : UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .fullName(user.getFullName())
                 .username(user.getUsername())
                 .role(user.getRole().name())
                 .birthDate(Objects.isNull(user.getBirthDate()) ? null : DateUtils.formatDate(user.getBirthDate()))

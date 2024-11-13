@@ -15,6 +15,7 @@ import com.example.ERPSpringBootBackEnd.model.JobProfile;
 import com.example.ERPSpringBootBackEnd.model.User;
 import com.example.ERPSpringBootBackEnd.repositories.UserRepository;
 import com.example.ERPSpringBootBackEnd.utils.DateUtils;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -143,6 +144,14 @@ public class UserService implements UserDetailsService {
 
         userFromDB.setId(id);
         return userRepository.save(userFromDB);
+    }
+
+    public void deleteUserById(long id) {
+        if(!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User not found with the Id" + id);
+        }
+
+        userRepository.deleteById(id);
     }
 
     @Override
