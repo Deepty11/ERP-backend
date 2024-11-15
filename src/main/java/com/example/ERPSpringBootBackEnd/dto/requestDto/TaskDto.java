@@ -1,12 +1,14 @@
 package com.example.ERPSpringBootBackEnd.dto.requestDto;
 
 import ch.qos.logback.core.util.StringUtil;
+import com.example.ERPSpringBootBackEnd.enums.TaskPriority;
 import com.example.ERPSpringBootBackEnd.enums.TaskStatus;
 import com.example.ERPSpringBootBackEnd.model.Task;
 import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Getter
@@ -39,8 +41,15 @@ public class TaskDto {
             this.dueDate = DateUtils.formatDate(task.getDueDate());
         }
 
-        this.status = task.getStatus().getTitle();
-        this.priority = task.getPriority().getTitle();
+        /**
+         * setting task status as `TO_DO` and priority as `LOW` by default
+         */
+        this.status = Objects.isNull(task.getStatus())
+                ? TaskStatus.TO_DO.name()
+                : task.getStatus().name();
+        this.priority = Objects.isNull(task.getPriority())
+                ? TaskPriority.LOW.name()
+                : task.getPriority().name();
         this.taskAllowance = task.getTaskAllowance();
     }
 }

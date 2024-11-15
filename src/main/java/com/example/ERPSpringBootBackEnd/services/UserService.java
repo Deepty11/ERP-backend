@@ -17,6 +17,7 @@ import com.example.ERPSpringBootBackEnd.repositories.UserRepository;
 import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -152,6 +153,17 @@ public class UserService implements UserDetailsService {
         }
 
         userRepository.deleteById(id);
+    }
+
+    public User getCurrentUser() {
+        Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username = (String) principle;
+        return getUserByUsername(username);
+    }
+
+    public List<User> getAllUsersByIds(List<Long> ids) {
+        return userRepository.findAllById(ids);
     }
 
     @Override

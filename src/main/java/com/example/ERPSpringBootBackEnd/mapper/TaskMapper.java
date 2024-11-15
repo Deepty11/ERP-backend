@@ -21,12 +21,14 @@ public class TaskMapper {
         Task task = Task.builder()
                 .title(taskDto.getTitle())
                 .description(taskDto.getDescription())
-                .status(TaskStatus.getTaskStatus(taskDto.getStatus()))
-                .priority(TaskPriority.getTaskPriority(taskDto.getPriority()))
+                .status(Objects.isNull(taskDto.getStatus())
+                        ? TaskStatus.TO_DO // by default will set TO_DO
+                        : TaskStatus.getTaskStatus(taskDto.getStatus()))
+                .priority(Objects.isNull(taskDto.getPriority())
+                        ? TaskPriority.LOW // by default will set LOW
+                        : TaskPriority.getTaskPriority(taskDto.getPriority()))
                 .taskAllowance(taskDto.getTaskAllowance())
                 .build();
-
-
         return task;
     }
 

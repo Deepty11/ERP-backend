@@ -5,6 +5,8 @@ import com.example.ERPSpringBootBackEnd.enums.TaskPriority;
 import com.example.ERPSpringBootBackEnd.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -52,6 +54,17 @@ public class Task implements Serializable {
     @Enumerated(EnumType.STRING)
     private TaskPriority priority;
     private Double taskAllowance;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updated;
+
+    @Version
+    private int version;
 
     @Override
     public boolean equals(Object o) {
