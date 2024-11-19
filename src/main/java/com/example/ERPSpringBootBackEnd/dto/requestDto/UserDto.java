@@ -39,6 +39,7 @@ public class UserDto {
     private EmergencyContactInfoDto emergencyContactInfoDto;
     private JobProfileDto jobProfileDto;
     private List<LeaveApplicationDto> leaveApplicationDtos;
+    private FileEntityDto fileEntityDto;
 
 
     // TODO: Add these fields later

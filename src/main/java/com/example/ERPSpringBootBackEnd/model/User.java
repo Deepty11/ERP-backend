@@ -5,7 +5,6 @@ import com.example.ERPSpringBootBackEnd.enums.Religion;
 import com.example.ERPSpringBootBackEnd.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -55,9 +54,12 @@ public class User implements UserDetails, Serializable {
     @JoinColumn(name = "emergency_contact_info_id")
     private EmergencyContactInfo emergencyContact;
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name = "user_document_id")
-    private UserDocument document;
+    private List<FileEntity> documents;
+
+    @OneToOne
+    private FileEntity profilePicture;
 
     @OneToOne
     @JoinColumn(name = "job_info_id")

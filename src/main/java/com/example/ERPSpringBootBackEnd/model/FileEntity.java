@@ -14,14 +14,11 @@ import java.util.Objects;
 @Table
 @Getter
 @Setter
-public class UserDocument implements Serializable {
+public class FileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(name = "userDocSeq",
-            sequenceName = "userDocSeq",
-            allocationSize = 1)
-    @GeneratedValue(generator = "userDocSeq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String fileName;
@@ -29,6 +26,9 @@ public class UserDocument implements Serializable {
     @Lob
     @Column(length = 100000)
     private byte[] document;
+
+    @OneToOne
+    private User user;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -45,7 +45,7 @@ public class UserDocument implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDocument that = (UserDocument) o;
+        FileEntity that = (FileEntity) o;
         return id == that.id;
     }
 

@@ -74,6 +74,7 @@ public class UserMapper {
                 .contactInfoDto(Objects.isNull(user.getContactInfo()) ? null :ContactInfoMapper.toDto(user.getContactInfo()))
                 .emergencyContactInfoDto(Objects.isNull(user.getEmergencyContact()) ? null :EmergencyContactInfoMapper.toDto(user.getEmergencyContact()))
                 .leaveApplicationDtos(LeaveApplicationMapper.toListOfLeaveApplicationDto(user.getLeaveApplications()))
+                .fileEntityDto(FileEntityMapper.toFileEntityDto(user.getProfilePicture()))
                 .build();
     }
 

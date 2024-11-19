@@ -57,16 +57,13 @@ public class TaskService {
         }
 
         List<Long> userIds = userDtoList.stream().map(UserDto::getId).toList();
-
-        System.out.println("# of users: "+ userIds.size());
         return userService.getAllUsersByIds(userIds);
     }
 
     public List<TaskDto> getAllTaskDtos() {
         List<Task> tasks = taskRepository.findAll();
 
-        return tasks.stream().map(task -> mapToTaskDto(task))
-                .toList();
+        return tasks.stream().map(this::mapToTaskDto).toList();
     }
 
     public TaskDto mapToTaskDto(Task task) {
@@ -95,10 +92,7 @@ public class TaskService {
         }
 
         Task taskFromDB = optional.get();
-
-        TaskDto taskDto = mapToTaskDto(taskFromDB);
-
-        return taskDto;
+        return mapToTaskDto(taskFromDB);
     }
 
     public Task updateTask(long id, TaskDto taskDto) {
@@ -131,12 +125,6 @@ public class TaskService {
             taskFromDB.setAssignees(getUsers(taskDto.getAssignees()));
         }
 
-        Task updatedTask = taskRepository.save(taskFromDB);
-
-        System.out.println("LLLL updatedTask: ");
-        System.out.println(updatedTask.getDueDate());
-
-
-        return updatedTask;
+        return taskRepository.save(taskFromDB);
     }
 }

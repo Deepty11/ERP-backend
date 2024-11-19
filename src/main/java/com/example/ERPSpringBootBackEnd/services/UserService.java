@@ -3,16 +3,15 @@ package com.example.ERPSpringBootBackEnd.services;
 import ch.qos.logback.core.util.StringUtil;
 import com.example.ERPSpringBootBackEnd.dto.requestDto.ContactInfoDto;
 import com.example.ERPSpringBootBackEnd.dto.requestDto.EmergencyContactInfoDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.FileEntityDto;
 import com.example.ERPSpringBootBackEnd.dto.requestDto.UserDto;
 import com.example.ERPSpringBootBackEnd.enums.DBState;
 import com.example.ERPSpringBootBackEnd.enums.Gender;
 import com.example.ERPSpringBootBackEnd.enums.Religion;
 import com.example.ERPSpringBootBackEnd.mapper.ContactInfoMapper;
 import com.example.ERPSpringBootBackEnd.mapper.UserMapper;
-import com.example.ERPSpringBootBackEnd.model.ContactInfo;
-import com.example.ERPSpringBootBackEnd.model.EmergencyContactInfo;
-import com.example.ERPSpringBootBackEnd.model.JobProfile;
-import com.example.ERPSpringBootBackEnd.model.User;
+import com.example.ERPSpringBootBackEnd.model.*;
+import com.example.ERPSpringBootBackEnd.repositories.FileEntityRepository;
 import com.example.ERPSpringBootBackEnd.repositories.UserRepository;
 import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import jakarta.persistence.EntityNotFoundException;
@@ -23,9 +22,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -41,6 +44,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private EmergencyContactInfoService emergencyContactInfoService;
+
+    @Autowired
+    private FileEntityRepository fileEntityRepository;
 
     @Transactional
     public DBState save(UserDto userDto) {
@@ -164,6 +170,35 @@ public class UserService implements UserDetailsService {
 
     public List<User> getAllUsersByIds(List<Long> ids) {
         return userRepository.findAllById(ids);
+    }
+
+    public UserDto uploadProfilePicture(long id, FileEntityDto fileEntityDto) throws IOException {
+        Optional<User> optional = userRepository.findById(id);
+
+        if(optional.isEmpty()) {
+            return null;
+        }
+
+        User userFromDB = optional.get();
+
+        if(Objects.nonNull(userFromDB.getProfilePicture())) {
+           FileEntity fileEntityFromDB = userFromDB.getProfilePicture();
+           fileEntityFromDB.setFileName(fileEntityDto.getFileName());
+           fileEntityFromDB.setDocument(Base64.getDecoder().decode(fileEntityDto.getData()));
+           fileEntityRepository.save(fileEntityFromDB);
+           userFromDB.setProfilePicture(fileEntityFromDB);
+
+        } else {
+            FileEntity newProfilePicture = new FileEntity();
+            newProfilePicture.setFileName(fileEntityDto.getFileName());
+            newProfilePicture.setDocument(Base64.getDecoder().decode(fileEntityDto.getData()));
+            fileEntityRepository.save(newProfilePicture);
+            userFromDB.setProfilePicture(newProfilePicture);
+        }
+
+        User user = userRepository.save(userFromDB);
+
+        return UserMapper.toUserDto(user);
     }
 
     @Override

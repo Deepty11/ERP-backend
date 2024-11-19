@@ -1,5 +1,6 @@
 package com.example.ERPSpringBootBackEnd.controllers;
 
+import com.example.ERPSpringBootBackEnd.dto.requestDto.FileEntityDto;
 import com.example.ERPSpringBootBackEnd.dto.requestDto.UserDto;
 import com.example.ERPSpringBootBackEnd.dto.responseDto.ErrorResponseDto;
 import com.example.ERPSpringBootBackEnd.dto.responseDto.SuccessResponseDto;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -95,6 +97,22 @@ public class UserController {
                             new Date().getTime(),
                             null));
         }
+    }
+
+    @PostMapping("/upload/profile-picture")
+    @RolesAllowed({"ADMIN", "USER"})
+    public ResponseEntity<?> uploadProfilePicture(@RequestParam long id, @RequestBody FileEntityDto fileEntityDto) throws IOException {
+        UserDto userDto = userService.uploadProfilePicture(id, fileEntityDto);
+        if(Objects.nonNull(userDto)) {
+            return ResponseEntity.ok().body(userDto);
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponseDto(
+                        "No user found with the id",
+                        new Date().getTime(),
+                        null));
     }
 
 
