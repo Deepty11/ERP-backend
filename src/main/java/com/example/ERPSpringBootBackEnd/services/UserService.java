@@ -1,10 +1,7 @@
 package com.example.ERPSpringBootBackEnd.services;
 
 import ch.qos.logback.core.util.StringUtil;
-import com.example.ERPSpringBootBackEnd.dto.requestDto.ContactInfoDto;
-import com.example.ERPSpringBootBackEnd.dto.requestDto.EmergencyContactInfoDto;
-import com.example.ERPSpringBootBackEnd.dto.requestDto.FileEntityDto;
-import com.example.ERPSpringBootBackEnd.dto.requestDto.UserDto;
+import com.example.ERPSpringBootBackEnd.dto.requestDto.*;
 import com.example.ERPSpringBootBackEnd.enums.DBState;
 import com.example.ERPSpringBootBackEnd.enums.Gender;
 import com.example.ERPSpringBootBackEnd.enums.Religion;
@@ -147,6 +144,24 @@ public class UserService implements UserDetailsService {
             }
 
             userFromDB.setEmergencyContact(emergencyContactInfo);
+        }
+
+        // update jobProfile
+        if(Objects.nonNull(userDto.getJobProfileDto())) {
+            JobProfileDto jobProfileDto = userDto.getJobProfileDto();
+
+            JobProfile jobProfile = null;
+            if(Objects.isNull(userFromDB.getEmergencyContact())) {
+                jobProfile = jobProfileService.save(jobProfileDto);
+            } else {
+                jobProfile = jobProfileService.update(userFromDB.getJobProfile().getId(), jobProfileDto);
+            }
+
+            if(Objects.isNull(jobProfile)) {
+                return null;
+            }
+
+            userFromDB.setJobProfile(jobProfile);
         }
 
         userFromDB.setId(id);

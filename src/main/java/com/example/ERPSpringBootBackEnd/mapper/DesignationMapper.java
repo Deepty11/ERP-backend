@@ -9,6 +9,10 @@ import java.util.Objects;
 
 public class DesignationMapper {
     public static DesignationDto toDto(Designation designation) {
+        if(Objects.isNull(designation)) {
+            return null;
+        }
+
         DesignationDto designationDto = DesignationDto.builder()
                 .title(designation.getTitle())
                 .description(designation.getDescription())
