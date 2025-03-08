@@ -4,7 +4,7 @@ import com.example.ERPSpringBootBackEnd.dto.requestDto.LeaveApplicationDto;
 import com.example.ERPSpringBootBackEnd.enums.LeaveStatus;
 import com.example.ERPSpringBootBackEnd.enums.LeaveType;
 import com.example.ERPSpringBootBackEnd.model.LeaveApplication;
-import com.example.ERPSpringBootBackEnd.model.User;
+import com.example.ERPSpringBootBackEnd.model.Users;
 import com.example.ERPSpringBootBackEnd.repositories.LeaveApplicationRepository;
 import com.example.ERPSpringBootBackEnd.utils.DateUtils;
 import com.example.ERPSpringBootBackEnd.mapper.LeaveApplicationMapper;
@@ -27,10 +27,10 @@ public class LeaveApplicationService {
     public int totalAllowedCasualLeaves = 14;
 
     public LeaveApplication save(LeaveApplicationDto leaveApplicationDto) {
-        User user = userService.getUserByUsername(
+        Users users = userService.getUserByUsername(
                 leaveApplicationDto.getUserDto().getUsername());
 
-        if (Objects.isNull(user)) {
+        if (Objects.isNull(users)) {
             return null;
         }
 
@@ -41,7 +41,7 @@ public class LeaveApplicationService {
                 .fromDate(DateUtils.parseDate(leaveApplicationDto.getFromDate()))
                 .toDate(DateUtils.parseDate(leaveApplicationDto.getToDate()))
                 .status(LeaveStatus.getLeaveStatus(leaveApplicationDto.getStatus()))
-                .user(user)
+                .users(users)
                 .build();
         return saveLeaveApplication(leaveApplication);
     }
